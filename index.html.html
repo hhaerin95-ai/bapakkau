@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>for my baby ❤️</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url("https://i.ibb.co/TDK4tmJn/download-4.jpg") no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      flex-direction: column;
+    }
+    #form-container {
+      text-align: center;
+    }
+    input, button {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+    }
+    button {
+      background: hotpink;
+      color: white;
+      cursor: pointer;
+    }
+    #message {
+      font-size: 2rem;
+      text-align: center;
+      display: none;
+      animation: pop 1s ease-in-out;
+    }
+    @keyframes pop {
+      0% { transform: scale(0); }
+      100% { transform: scale(1); }
+    }
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+    /* LOVE SHAPE USING SVG - CENTERED */
+    .heart {
+      width: 300px;
+      height: 300px;
+      margin-top: 20px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .heart svg {
+      width: 100%;
+      height: 100%;
+    }
+    .heart image {
+      clip-path: url(#heart-clip);
+    }
+  </style>
+</head>
+<body>
+  <div id="form-container">
+    <h2>isi nama pat</h2>
+    <input type="text" id="name" placeholder="ha sini sini">
+    <button onclick="showMessage()">Submit</button>
+  </div>
+  
+  <div id="message">
+    <h1>💖ILY UCOP KONTOL💖</h1>
+    <div class="heart">
+      <svg viewBox="0 0 100 100">
+        <defs>
+          <clipPath id="heart-clip">
+            <path d="M50 30 Q50 10 70 10 Q90 10 90 30 Q90 50 70 70 Q50 90 30 70 Q10 50 10 30 Q10 10 30 10 Q50 10 50 30 Z" />
+          </clipPath>
+        </defs>
+        <image href="https://i.ibb.co/mr3ML480/photo-6219977093131913923-y.jpg" width="100" height="100" preserveAspectRatio="xMidYMid slice" />
+      </svg>
+    </div>
+  </div>
+  <canvas id="fireworks"></canvas>
+
+  <script>
+    function showMessage() {
+      document.getElementById("form-container").style.display = "none";
+      document.getElementById("message").style.display = "block";
+      startFireworks();
+    }
+
+    // Fireworks effect
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+
+    function random(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function createFirework(x, y) {
+      for (let i = 0; i < 50; i++) {
+        particles.push({
+          x: x,
+          y: y,
+          speed: random(2, 7),
+          angle: random(0, Math.PI * 2),
+          radius: random(2, 4),
+          alpha: 1
+        });
+      }
+    }
+
+    function updateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((p, i) => {
+        p.x += Math.cos(p.angle) * p.speed;
+        p.y += Math.sin(p.angle) * p.speed;
+        p.alpha -= 0.01;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, ${Math.floor(random(100,255))}, ${Math.floor(random(100,255))}, ${p.alpha})`;
+        ctx.fill();
+        if (p.alpha <= 0) particles.splice(i, 1);
+      });
+    }
+
+    function loop() {
+      requestAnimationFrame(loop);
+      updateParticles();
+    }
+
+    function startFireworks() {
+      setInterval(() => {
+        createFirework(random(100, canvas.width-100), random(100, canvas.height-100));
+      }, 700);
+      loop();
+    }
+  </script>
+</body>
+</html>
